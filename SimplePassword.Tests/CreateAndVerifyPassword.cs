@@ -75,5 +75,26 @@ namespace SimplePassword.Tests
             // Assert
             valid.Should().Be.True();
         }
+
+        [Fact]
+        public void CanNotConstructWithNullPassword()
+        {
+            // Act, Assert
+            Assert.Throws<ArgumentNullException>( () =>new SaltedPasswordHash(null) );   
+        }
+
+        [Fact]
+        public void CanNotConstructWithNullHash()
+        {
+            // Act, Assert
+            Assert.Throws<ArgumentNullException>(() => new SaltedPasswordHash(null, "bogus"));
+        }
+
+        [Fact]
+        public void CanNotConstructWithNullSalt()
+        {
+            // Act, Assert
+            Assert.Throws<ArgumentNullException>(() => new SaltedPasswordHash("bogus", null));
+        }
     }
 }

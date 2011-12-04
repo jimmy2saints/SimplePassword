@@ -19,6 +19,9 @@ namespace SimplePassword
 
         public SaltedPasswordHash(string password, int saltSize = DefaultSaltSize, HashAlgorithm algorithm = null, RandomNumberGenerator randomNumberGenerator = null)
         {
+            if (password == null)
+                throw new ArgumentNullException("password");
+
             if (algorithm == null)
                 _algorithm = new SHA512Managed();
             else
@@ -37,6 +40,12 @@ namespace SimplePassword
 
         public SaltedPasswordHash(string hash, string salt)
         {
+            if (hash == null)
+                throw new ArgumentNullException("hash");
+
+            if (salt == null)
+                throw new ArgumentNullException("salt");
+
             _hash = hash;
             _salt = salt;
             _saltSize = DefaultSaltSize;
