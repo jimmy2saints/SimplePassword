@@ -1,13 +1,15 @@
-﻿ SimplePassword
- ======================
+SimplePassword
+======================
 
- This is a simple class for creating salted password hashes.
- Typical use would be:
+This is a simple class for creating salted password hashes.
+
+Typical use would be:
      ```c#
 	var passwordHash = new SaltedPasswordHash("someClearTextPassword");
 	SaveToDatebase(passwordHash.Hash, passwordHash.Salt);
 	 ```
 Later to verify the password
+
 	```c#
 	var hash = GetHashFromDatabase();
 	var salt = GetSaltFromDatabase();
