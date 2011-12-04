@@ -21,3 +21,5 @@ if(verified)
 	// Log user in, or similar
 ```
 	
+Look at the tests to see how it behaves: https://github.com/jimmy2saints/SimplePassword/blob/master/SimplePassword/SaltedPasswordHash.cs
+
