@@ -4,10 +4,12 @@ SimplePassword
 This is a simple class for creating salted password hashes.
 
 Typical use would be:
-     ```c#
+
+	```c#
 	var passwordHash = new SaltedPasswordHash("someClearTextPassword");
 	SaveToDatebase(passwordHash.Hash, passwordHash.Salt);
-	 ```
+	```
+	
 Later to verify the password
 
 	```c#
@@ -19,4 +21,3 @@ Later to verify the password
 		// Log user in, or similar
 	```
 	
-yes
