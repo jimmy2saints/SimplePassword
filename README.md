@@ -4,8 +4,8 @@
  This is a simple class for creating salted password hashes.
  Typical use would be:
      ```c#
-	 var passwordHash = new SaltedPasswordHash("someClearTextPassword");
-	 SaveToDatebase(passwordHash.Hash, passwordHash.Salt);
+	var passwordHash = new SaltedPasswordHash("someClearTextPassword");
+	SaveToDatebase(passwordHash.Hash, passwordHash.Salt);
 	 ```
 Later to verify the password
 	```c#
