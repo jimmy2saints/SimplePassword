@@ -1,5 +1,5 @@
- SimplePassword
- ===
+ #SimplePassword
+
  This is a simple class for creating salted password hashes.
  Typical use would be:
      var passwordHash = new SaltedPasswordHash("someClearTextPassword");
