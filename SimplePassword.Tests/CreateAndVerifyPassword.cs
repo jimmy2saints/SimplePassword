@@ -43,23 +43,6 @@ namespace SimplePassword.Tests
         }
 
         [Fact]
-        public void DoesNotVerifyIncorrectPassword()
-        {
-            // Arrange
-            var password = "testpassword";
-            var password2 = "boguspassword";
-
-            // Act
-            var passwordHash1 = new SaltedPasswordHash(password);
-            var passwordHash2 = new SaltedPasswordHash(password2);
-
-            bool valid = passwordHash1 == passwordHash2;
-
-            // Assert
-            valid.Should().Be.False();
-        }
-
-        [Fact]
         public void CanDetermineIfHashedNotEqual()
         {
             // Arrange
@@ -74,6 +57,40 @@ namespace SimplePassword.Tests
 
             // Assert
             valid.Should().Be.True();
+        }
+
+        [Fact]
+        public void CanVerifyClearTextPasswordAgainstHashedAndSaltedPassword()
+        {
+            // Arrange
+            var clearTextPassword = "testpassword";
+            var originalPasswordHash = new SaltedPasswordHash(clearTextPassword);
+            var retrivedPasswordHash = new SaltedPasswordHash(originalPasswordHash.Hash, originalPasswordHash.Salt);
+            
+            // Act
+            bool valid = retrivedPasswordHash.Verify(clearTextPassword);
+
+            // Assert
+            valid.Should().Be.True();
+        }
+
+        [Fact]
+        public void CanVerifyTwoPasswordHashedCreatedFromClearTextPasswordsButTheyHashesAreNotEqual()
+        {
+            // Arrange
+            var clearTextPassword = "testpassword";
+            var hash1 = new SaltedPasswordHash(clearTextPassword);
+            var hash2 = new SaltedPasswordHash(clearTextPassword);
+
+            // Act
+            bool equalHashed = hash1 == hash2;
+            bool hash1VerifiesPassword = hash1.Verify(clearTextPassword);
+            bool hash2VerifiesPassword = hash2.Verify(clearTextPassword);
+
+            // Assert
+            equalHashed.Should().Be.False();
+            hash1VerifiesPassword.Should().Be.True();
+            hash2VerifiesPassword.Should().Be.True();
         }
 
         [Fact]

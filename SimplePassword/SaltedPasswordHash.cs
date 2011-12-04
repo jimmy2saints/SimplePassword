@@ -22,15 +22,8 @@ namespace SimplePassword
             if (password == null)
                 throw new ArgumentNullException("password");
 
-            if (algorithm == null)
-                _algorithm = new SHA512Managed();
-            else
-                _algorithm = algorithm;
-
-            if (randomNumberGenerator == null)
-                _randomNumberGenerator = new RNGCryptoServiceProvider();
-            else
-                _randomNumberGenerator = randomNumberGenerator;
+            _algorithm = InitHashAlgorithm(algorithm);
+            _randomNumberGenerator = InitRandomNumberGenerator(randomNumberGenerator);
 
             _saltSize = saltSize;
 
@@ -38,7 +31,7 @@ namespace SimplePassword
             _hash = CreateHash(password);
         }
 
-        public SaltedPasswordHash(string hash, string salt)
+        public SaltedPasswordHash(string hash, string salt, HashAlgorithm algorithm = null, RandomNumberGenerator randomNumberGenerator = null)
         {
             if (hash == null)
                 throw new ArgumentNullException("hash");
@@ -49,6 +42,31 @@ namespace SimplePassword
             _hash = hash;
             _salt = salt;
             _saltSize = DefaultSaltSize;
+            _algorithm = InitHashAlgorithm(algorithm);
+            _randomNumberGenerator = InitRandomNumberGenerator(randomNumberGenerator);
+        }
+
+        public bool Verify(string clearTextPassword)
+        {
+            var hash = CreateHash(clearTextPassword);
+            var verificationHash = new SaltedPasswordHash(hash, _salt);
+            return this == verificationHash;
+        }
+
+        private HashAlgorithm InitHashAlgorithm(HashAlgorithm algorithm)
+        {
+            if (algorithm == null)
+                return new SHA512Managed();
+            else
+                return algorithm;
+        }
+
+        private RandomNumberGenerator InitRandomNumberGenerator(RandomNumberGenerator randomNumberGenerator)
+        {
+            if (randomNumberGenerator == null)
+                return  new RNGCryptoServiceProvider();
+            else
+                return randomNumberGenerator;
         }
 
         private string CreateSalt()
