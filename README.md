@@ -1,4 +1,4 @@
- SimplePassword
+﻿ SimplePassword
  ======================
 
  This is a simple class for creating salted password hashes.
